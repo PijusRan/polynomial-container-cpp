@@ -119,19 +119,14 @@ namespace polymath{
 
                 // Reverse iteration on contains
                 set<int>::reverse_iterator rit; 
-                for (rit = contains.rbegin(); rit != contains.rend(); rit++)  {
+                ss << "{ ";
+                for(rit = contains.rbegin(); rit != contains.rend(); rit++)  {
                     if(*rit != 0){
-                        if(next(rit) != contains.rend()){
-                            ss << multipliers[*rit] << "x^" << *rit << " + ";
-                        }
-                        else{
-                            ss << multipliers[*rit] << "x^" << *rit << "\n";
-                        }
-                    }
-                    else{
-                        ss << multipliers[*rit] << "\n";
+                        ss << multipliers[*rit] << ": " << *rit << ", ";
                     }
                 }
+                ss << multipliers[*rit] << ": " << *rit << " ";
+                ss << " }\n";
 
                 return ss.str();
             }
