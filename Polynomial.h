@@ -15,6 +15,14 @@ namespace polymath {
             Polynomial& operator-=(const Polynomial& rhs);
             Polynomial& operator*=(const Polynomial& rhs);
 
+            bool operator==(Polynomial& other);
+            bool operator!=(Polynomial& other);
+            bool operator>(Polynomial& other);
+            bool operator<(Polynomial& other);
+            bool operator>=(Polynomial& other);
+            bool operator<=(Polynomial& other);
+
+            bool operator!();
             
         protected:
             class Impl;

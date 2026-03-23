@@ -50,6 +50,64 @@ namespace polymath{
                 return *this;
             }
 
+            bool operator==(Impl& other){
+                if(contains == other.contains && multipliers == other.multipliers){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            bool operator!=(Impl& other){
+                if(!(*this == other)){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            bool operator>(Impl& other){
+                auto e_it1 = contains.rbegin();
+                auto e_it2 = other.contains.rbegin();
+
+                if(*this != other){
+                    while(e_it1 != contains.rend() && e_it2 != contains.rend()){
+                        if(*e_it1 > *e_it2){
+                            return true;
+                        }
+                        else if(*e_it1 == *e_it2){
+                            if(multipliers[*e_it1] > multipliers[*e_it2]) return true;
+                            else if(multipliers[*e_it1] > multipliers[*e_it2]) continue;
+                            else return false;
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                else return false;
+            }
+            bool operator<(Impl& other){
+                if(!(*this > other) && *this != other) return true;
+                else return false;
+            }
+            bool operator>=(Impl& other){
+                if((*this > other) || (*this == other)) return true;
+                else return false;
+            }
+            bool operator<=(Impl& other){
+                if((*this < other) || (*this == other)) return true;
+                else return false;
+            }
+
+            // --- CLEANER ---
+            bool operator!(){
+                contains.clear();
+                multipliers.clear();
+                return true;
+            }
+
             // --- toString ---
             string toString(){
                 stringstream ss;
@@ -78,18 +136,42 @@ namespace polymath{
     Polynomial::Polynomial(std::vector<int>& expression) : pImpl(std::make_unique<Impl>(expression)) {}
     Polynomial::~Polynomial() = default; 
 
-    Polynomial& Polynomial::operator+=(const Polynomial& rhs) {
-        *(this->pImpl) += *(rhs.pImpl); 
+    Polynomial& Polynomial::operator+=(const Polynomial& other) {
+        *(this->pImpl) += *(other.pImpl); 
         return *this;
     }
-    Polynomial& Polynomial::operator-=(const Polynomial& rhs) {
-        *(this->pImpl) -= *(rhs.pImpl);
+    Polynomial& Polynomial::operator-=(const Polynomial& other) {
+        *(this->pImpl) -= *(other.pImpl);
         return *this;
     }
-    Polynomial& Polynomial::operator*=(const Polynomial& rhs) {
-        *(this->pImpl) *= *(rhs.pImpl);
+    Polynomial& Polynomial::operator*=(const Polynomial& other) {
+        *(this->pImpl) *= *(other.pImpl);
         return *this;
     }
+
+    bool Polynomial::operator==(Polynomial& other){
+        return *(this->pImpl) == *(other.pImpl);
+    }
+    bool Polynomial::operator!=(Polynomial& other){
+        return *(this->pImpl) != *(other.pImpl);
+    }
+    bool Polynomial::operator>(Polynomial& other){
+        return *(this->pImpl) > *(other.pImpl);
+    }
+    bool Polynomial::operator<(Polynomial& other){
+        return *(this->pImpl) < *(other.pImpl);
+    }
+    bool Polynomial::operator>=(Polynomial& other){
+        return *(this->pImpl) >= *(other.pImpl);
+    }
+    bool Polynomial::operator<=(Polynomial& other){
+        return *(this->pImpl) <= *(other.pImpl);
+    }
+    
+    bool Polynomial::operator!(){
+        return !(*(this->pImpl));
+    }
+
 
     string Polynomial::toString(){
         return pImpl->toString(); 
