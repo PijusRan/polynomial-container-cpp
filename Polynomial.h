@@ -4,14 +4,19 @@
 #include <memory>
 using namespace std;
 
-namespace math_polynomial {
+namespace polymath {
     class Polynomial {
         public:
-            Polynomial();
+            Polynomial(vector<int>& expression);
             ~Polynomial();
             string toString();
+
+            Polynomial& operator+=(const Polynomial& rhs);
+            Polynomial& operator-=(const Polynomial& rhs);
+            Polynomial& operator*=(const Polynomial& rhs);
+
             
-        private:
+        protected:
             class Impl;
             std::unique_ptr<Impl> pImpl; 
     };
