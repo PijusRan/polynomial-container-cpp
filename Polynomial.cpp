@@ -108,6 +108,11 @@ namespace polymath{
                 return true;
             }
 
+            // --- INDEXING ---
+            int operator[](int exponent){
+                return multipliers[exponent];
+            }
+
             // --- toString ---
             string toString(){
                 stringstream ss;
@@ -171,7 +176,9 @@ namespace polymath{
     bool Polynomial::operator!(){
         return !(*(this->pImpl));
     }
-
+    int Polynomial::operator[](int exponent){
+        return (*(this->pImpl))[exponent];
+    }
 
     string Polynomial::toString(){
         return pImpl->toString(); 

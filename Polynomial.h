@@ -23,6 +23,7 @@ namespace polymath {
             bool operator<=(Polynomial& other);
 
             bool operator!();
+            int operator[](int exponent);
             
         protected:
             class Impl;
