@@ -1,8 +1,6 @@
 #include "Polynomial.h"
 
-#include <map>
-#include <set>
-#include <vector>
+#include <iostream>
 #include <string>
 #include <sstream>
 using namespace std;
@@ -10,55 +8,69 @@ using namespace std;
 namespace polymath{
     class Polynomial::Impl{
         // --- LAUKAI ---
+        private: 
+            void resize(size_t newMaxExponent){
+                valueArray = (unsigned int*) realloc(valueArray, (newMaxExponent+1) * sizeof(unsigned int));
+                maxExponent = newMaxExponent;
+            }
+
         protected:
-            set<int> contains;
-            map<int, int> multipliers;
+            unsigned int* valueArray;
+            size_t maxExponent;
 
         public:
             // --- CONSTRUCTORS ---
-            Impl(vector<int>& expression){
-                for(int i = 0; i < expression.size(); i++){
-                    if(expression[i] != 0){
-                        contains.insert(i);
-                        multipliers[i] = expression[i];
-                    }
+            Impl(unsigned int* inputArray, size_t maxExponent){
+                this->valueArray = (unsigned int*) malloc((maxExponent + 1) * sizeof(unsigned int));
+                this->maxExponent = maxExponent;
+
+                for(int i = maxExponent; i >= 0; i--){
+                    valueArray[i] = inputArray[i];
+                    if(i == maxExponent && valueArray[i] == 0) resize(i-1);
                 }
             }
 
             // --- OPERATORS ---
             Impl& operator+=(Impl& other){
-                for(int e : other.contains){
-                    contains.insert(e);
-                    multipliers[e] += other.multipliers[e];
+                if(other.maxExponent > maxExponent) resize(other.maxExponent);
+
+                for(int i = maxExponent; i >= 0; i--){
+                    valueArray[i] += other.valueArray[i];
+                    if(i == maxExponent && valueArray[i] == 0) resize(i-1);
                 }
+
                 return *this;
             }
             Impl& operator-=(Impl& other){
-                for(int e : other.contains){
-                    contains.insert(e);
-                    multipliers[e] -= other.multipliers[e];
-                    if(multipliers[e] == 0) contains.erase(e);
+                if(other.maxExponent > maxExponent) resize(other.maxExponent);
+
+                for(int i = maxExponent; i >= 0; i--){
+                    valueArray[i] -= other.valueArray[i];
+                    if(i == maxExponent && valueArray[i] == 0) resize(i-1);
                 }
+
                 return *this;
             }
             Impl& operator*=(Impl& other){
-                contains.clear();
-                for(int e : other.contains){
-                    contains.insert(e);
-                    multipliers[e] = other.multipliers[e];
+                resize(other.maxExponent);
+
+                for(int i = maxExponent; i >= 0; i--){
+                    valueArray[i] = other.valueArray[i];
+                    if(i == maxExponent && valueArray[i] == 0) resize(i-1);
                 }
+
                 return *this;
             }
 
-            bool operator==(Impl& other){
-                if(contains == other.contains && multipliers == other.multipliers){
-                    return true;
+            const bool operator==(const Impl& other){
+                if(maxExponent != other.maxExponent) return false;
+
+                for(int i = 0; i <= maxExponent; i++){
+                    if(valueArray[i] != other.valueArray[i]) return false;
                 }
-                else{
-                    return false;
-                }
+                return true;
             }
-            bool operator!=(Impl& other){
+            const bool operator!=(const Impl& other){
                 if(!(*this == other)){
                     return true;
                 }
@@ -66,51 +78,38 @@ namespace polymath{
                     return false;
                 }
             }
-            bool operator>(Impl& other){
-                auto e_it1 = contains.rbegin();
-                auto e_it2 = other.contains.rbegin();
+            const bool operator>(const Impl& other){
+                if(maxExponent > other.maxExponent) return true;
 
-                if(*this != other){
-                    while(e_it1 != contains.rend() && e_it2 != contains.rend()){
-                        if(*e_it1 > *e_it2){
-                            return true;
-                        }
-                        else if(*e_it1 == *e_it2){
-                            if(multipliers[*e_it1] > multipliers[*e_it2]) return true;
-                            else if(multipliers[*e_it1] > multipliers[*e_it2]) continue;
-                            else return false;
-                        }
-                        else{
-                            return false;
-                        }
-                    }
-                    return true;
+                for(int i = maxExponent; i > 0; i--){
+                    if(valueArray[i] > other.valueArray[i]) return true;
+                    else if(valueArray[i] == other.valueArray[i]) continue;
+                    else return false;
                 }
-                else return false;
+                return false;
             }
-            bool operator<(Impl& other){
+            const bool operator<(const Impl& other){
                 if(!(*this > other) && *this != other) return true;
                 else return false;
             }
-            bool operator>=(Impl& other){
+            const bool operator>=(const Impl& other){
                 if((*this > other) || (*this == other)) return true;
                 else return false;
             }
-            bool operator<=(Impl& other){
+            const bool operator<=(const Impl& other){
                 if((*this < other) || (*this == other)) return true;
                 else return false;
             }
 
             // --- CLEANER ---
             bool operator!(){
-                contains.clear();
-                multipliers.clear();
+                resize(0);
                 return true;
             }
 
             // --- INDEXING ---
-            int operator[](int exponent){
-                return multipliers[exponent];
+            const int operator[](const int exponent){
+                return valueArray[exponent];
             }
 
             // --- toString ---
@@ -118,14 +117,13 @@ namespace polymath{
                 stringstream ss;
 
                 // Reverse iteration on contains
-                set<int>::reverse_iterator rit; 
                 ss << "{ ";
-                for(rit = contains.rbegin(); rit != contains.rend(); rit++)  {
-                    if(*rit != 0){
-                        ss << multipliers[*rit] << ": " << *rit << ", ";
+                for(int i = 0; i < maxExponent; i++)  {
+                    if(valueArray[i] != 0){
+                        ss << i << ": " << valueArray[i] << ", ";
                     }
                 }
-                ss << multipliers[*rit] << ": " << *rit << " ";
+                ss << maxExponent << ": " << valueArray[maxExponent] << " ";
                 ss << " }\n";
 
                 return ss.str();
@@ -133,7 +131,7 @@ namespace polymath{
     };
 
     // pImpl declarations
-    Polynomial::Polynomial(std::vector<int>& expression) : pImpl(std::make_unique<Impl>(expression)) {}
+    Polynomial::Polynomial(unsigned int* inputArray, size_t maxExponent) : pImpl(std::make_unique<Impl>(inputArray, maxExponent)) {}
     Polynomial::~Polynomial() = default; 
 
     Polynomial& Polynomial::operator+=(const Polynomial& other) {

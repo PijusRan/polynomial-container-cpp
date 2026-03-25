@@ -1,10 +1,12 @@
 ##AI chats
+! Only used for consulting and learning (all code was still handwritten) !
 https://gemini.google.com/share/35d29acc9eef
 https://gemini.google.com/share/
 https://gemini.google.com/share/db30a35dcf8b
 https://gemini.google.com/share/097e590b85a2
 https://gemini.google.com/share/f5a0a2b3cf12
 https://gemini.google.com/share/aeb03f53c6ea
+https://gemini.google.com/share/d11c848e816c
 
 ##Other resources
 https://www.geeksforgeeks.org/cpp/namespace-in-c/

@@ -4,11 +4,11 @@
 using namespace std;
 
 int main(){
-    vector<int> in1 = {1, 2 ,3};
-    polymath::Polynomial pol1 = polymath::Polynomial(in1);
+    unsigned int in1[] = {1, 2, 3};
+    polymath::Polynomial pol1 = polymath::Polynomial(in1, 2);
 
-    vector<int> in2 = {3, 2, 1};
-    polymath::Polynomial pol2 = polymath::Polynomial(in2);
+    unsigned int in2[] = {4, 5, 6};
+    polymath::Polynomial pol2 = polymath::Polynomial(in2, 2);
 
     // Turime pol1
     cout << pol1.toString() << "\n";
@@ -24,5 +24,4 @@ int main(){
     // pol1 tampa pol2
     pol1 *= pol2;
     cout << pol1.toString() << "\n";
-
 }
