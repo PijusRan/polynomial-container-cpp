@@ -7,6 +7,7 @@ https://gemini.google.com/share/097e590b85a2
 https://gemini.google.com/share/f5a0a2b3cf12
 https://gemini.google.com/share/aeb03f53c6ea
 https://gemini.google.com/share/d11c848e816c
+https://gemini.google.com/share/ce21880b6e4a
 
 ##Other resources
 https://www.geeksforgeeks.org/cpp/namespace-in-c/

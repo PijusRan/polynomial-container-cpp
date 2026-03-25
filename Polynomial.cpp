@@ -21,8 +21,16 @@ namespace polymath{
         public:
             // --- CONSTRUCTORS ---
             Impl(unsigned int* inputArray, size_t maxExponent){
+                if(sizeof(inputArray) < maxExponent+1){
+                    throw runtime_error("size_t maxExponent is bigger than the size of array.");
+                }
                 this->valueArray = (unsigned int*) malloc((maxExponent + 1) * sizeof(unsigned int));
+                if (this-> valueArray == nullptr) {
+                    throw bad_alloc();
+                }
                 this->maxExponent = maxExponent;
+
+               
 
                 for(int i = maxExponent; i >= 0; i--){
                     valueArray[i] = inputArray[i];
@@ -71,12 +79,8 @@ namespace polymath{
                 return true;
             }
             const bool operator!=(const Impl& other){
-                if(!(*this == other)){
-                    return true;
-                }
-                else{
-                    return false;
-                }
+                if(!(*this == other)) return true;
+                else return false;
             }
             const bool operator>(const Impl& other){
                 if(maxExponent > other.maxExponent) return true;
@@ -109,6 +113,7 @@ namespace polymath{
 
             // --- INDEXING ---
             const int operator[](const int exponent){
+                if(exponent > maxExponent) return 0;
                 return valueArray[exponent];
             }
 
@@ -119,12 +124,9 @@ namespace polymath{
                 // Reverse iteration on contains
                 ss << "{ ";
                 for(int i = 0; i < maxExponent; i++)  {
-                    if(valueArray[i] != 0){
-                        ss << i << ": " << valueArray[i] << ", ";
-                    }
+                    if(valueArray[i] != 0) ss << i << ": " << valueArray[i] << ", ";
                 }
-                ss << maxExponent << ": " << valueArray[maxExponent] << " ";
-                ss << " }\n";
+                ss << maxExponent << ": " << valueArray[maxExponent]  << " }\n";
 
                 return ss.str();
             }
