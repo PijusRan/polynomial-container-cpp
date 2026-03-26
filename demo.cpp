@@ -1,27 +1,50 @@
+#include <iostream>
+#include <string>
 #include "Polynomial.h"
 
-#include <iostream>
+using namespace polymath;
 using namespace std;
 
-int main(){
-    unsigned int in1[] = {1, 2, 3};
-    polymath::Polynomial pol1 = polymath::Polynomial(in1, 2);
+int main() {
+    // 1. Data
+    // polynomial 1: 5 + 2x + 1x^2
+    unsigned int k1[] = {5, 2, 1}; 
+    // polynomial 2: 1 + 3x^1
+    unsigned int k2[] = {1, 3};    
 
-    unsigned int in2[] = {4, 5, 6};
-    polymath::Polynomial pol2 = polymath::Polynomial(in2, 2);
+    // 2. Creation
+    Polynomial p1(k1, 2);
+    Polynomial p2(k2, 1);
 
-    // Turime pol1
-    cout << pol1.toString() << "\n";
+    cout << "--- Stage 1: Polynomials ---" << endl;
+    cout << "P1: " << p1.toString() << endl;
+    cout << "P2: " << p2.toString() << endl;
 
-    // Pridedame pol2
-    pol1 += pol2;
-    cout << pol1.toString() << "\n";
+    // 3. Test Accessor (operator[])
+    cout << "\n--- Stage 2: Accessing Coefficients ---" << endl;
+    cout << "P1 coefficient of 1: " << p1[1] << endl;
+
+    // 4. Arithmetics (+=, -=, *=)
+    cout << "\n--- Arithmetic Operations ---" << endl;
     
-    // Atimame pol2 (tas pats kas pol1)
-    pol1 -= pol2;
-    cout << pol1.toString() << "\n";
+    p1 += p2;
+    cout << "P1 += P2: " << p1.toString() << endl;
+    p1 -= p2;
+    cout << "P1 -= P2 (same as in Stage 1): " << p1.toString() << endl;
 
-    // pol1 tampa pol2
-    pol1 *= pol2;
-    cout << pol1.toString() << "\n";
+    // 5. Test Comparison Operators
+    cout << "\n--- Comparisons ---" << endl;
+    cout << "P1 == P2? " << (p1 == p2) << endl;
+    cout << "P1 != P2? " << (p1 != p2) << endl;
+    cout << "P1 > P2?  " << (p1 > p2) << endl;
+    cout << "P1 < P2?  " << (p1 < p2) << endl;
+    cout << "P1 >= P2?  " << (p1 >= p2) << endl;
+    cout << "P1 >= P2?  " << (p1 >= p2) << endl;
+    
+    // 6. Erasing polynomial
+    if (!p1) {
+        cout << "P1 cleared." << endl;
+    }
+
+    return 0;
 }

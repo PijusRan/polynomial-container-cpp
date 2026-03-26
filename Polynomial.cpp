@@ -126,7 +126,7 @@ namespace polymath{
                 for(int i = 0; i < maxExponent; i++)  {
                     if(valueArray[i] != 0) ss << i << ": " << valueArray[i] << ", ";
                 }
-                ss << maxExponent << ": " << valueArray[maxExponent]  << " }\n";
+                ss << maxExponent << ": " << valueArray[maxExponent]  << " }";
 
                 return ss.str();
             }
