@@ -15,7 +15,7 @@ run_test: test
 	./test
 
 clean:
-	rm -f *.o demo test
+	rm -f *.o demo test log.txt
 
 rebuild:
 	make clean

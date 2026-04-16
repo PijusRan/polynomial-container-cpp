@@ -145,8 +145,6 @@ namespace Polymath{
 
             // --- INDEXING ---
             const int operator[](size_t exponent){
-                if(exponent > maxExponent) 
-                    return -1;
                 return valueArray[exponent];
             }
 
@@ -174,7 +172,7 @@ namespace Polymath{
             void resize(size_t newMaxExponent){
                 valueArray = (unsigned int*) realloc(valueArray, (newMaxExponent+2) * sizeof(unsigned int));
                 if(valueArray == NULL){
-                    cerr << "valueArray is null. \n";
+                    throw runtime_error("valueArray is null after resizing.");
                 }
                 maxExponent = newMaxExponent;
             }
