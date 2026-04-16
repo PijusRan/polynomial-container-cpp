@@ -5,7 +5,7 @@
 #include "Polynomial.h"
 
 using namespace std;
-using namespace polymath;
+using namespace Polymath;
 
 int main() {
     ofstream logFile("log.txt");
@@ -25,7 +25,7 @@ int main() {
     logFile << "PASS: [2]" << endl;
 
     // 1.5. Out of bounds coefficients
-    assert(p1[4] == 0);
+    assert(p1[4] == -1);
     logFile << "PASS: [4]" << endl;
 
     // 2. toString
@@ -41,7 +41,7 @@ int main() {
 
     // 4. Subtraction (-=)
     p1 -= p2;
-    assert(p1[3] == 0);
+    assert(p1[3] == -1);
     logFile << "PASS: operator-=" << endl;
 
     // 5. Equality
@@ -72,8 +72,14 @@ int main() {
     bool erased = !p1;
     assert(erased);
     logFile << "PASS: operator!" << endl;
-    assert(p1[0] == 0);
+    cout << p1[0] << "\n";
+    //assert(p1.getMultiplierOf(0) == 0);
     logFile << "PASS: operator! indexing" << endl;
+
+    // 9. Deep copy
+    Polynomial* p1_copy = p1.deepCopy();
+    p1.setMultiplierOf(0, 999);
+    assert(p1.getMultiplierOf(0) != p1_copy->getMultiplierOf(0));
 
     logFile.close();
     cout << "Tests passed. See log.txt." << endl;

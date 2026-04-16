@@ -1,0 +1,17 @@
+--- POLYNOMIAL UNIT TEST ---
+PASS: [0]
+PASS:[1]
+PASS: [2]
+PASS: [4]
+PASS: toString
+PASS: operator+=
+PASS: operator-=
+PASS: operator==
+PASS: operator!=
+PASS: operator>
+PASS: operator<
+PASS: operator>=
+PASS: operator<=
+PASS: operator*=
+PASS: operator!
+PASS: operator! indexing

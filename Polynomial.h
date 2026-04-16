@@ -3,7 +3,7 @@
 #include <memory>
 using namespace std;
 
-namespace polymath {
+namespace Polymath {
     /**
         * @class Polynomial
         * @brief A class representing a polynomial.
@@ -23,6 +23,24 @@ namespace polymath {
             ~Polynomial();
 
             /**
+                * @brief Gets the biggest exponent in polynomial.
+                * @return Integer.
+            */
+            int getMaxExponent();
+            /**
+                * @brief Gets the multiplier of specific exponent.
+                * @param exponent The degree of the term to retrieve.
+                * @return Integer.
+            */
+            int getMultiplierOf(int exponent);
+            /**
+                * @brief Sets the multiplier of specific exponent.
+                * @param exponent The degree of the term.
+                * @param multiplier The multiplier of the term.
+            */
+            void setMultiplierOf(int exponent, int multiplier);
+
+            /**
                 * @brief Accesses the coefficient for a specific exponent.
                 * @param exponent The degree of the term to retrieve.
                 * @return The coefficient at the given exponent, or 0 if the exponent exceeds max degree.
@@ -34,6 +52,11 @@ namespace polymath {
             */
             string toString();
 
+            /**
+                * @brief Create a deep copy of the polynomial.
+                * @return Pointer to copy.
+            */
+            Polynomial* deepCopy();
 
             /** @name Arithmetic Assignment Operators */
             ///@{
